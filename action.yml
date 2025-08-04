@@ -1,7 +1,7 @@
 # This workflow ensures all code being pushed to your repository is formatted.
 # Feel free to change it so it happens on pulls! Look over Github's documentation on actions if you're confused
 name: C# Unity Auto Formatting
-description: Auto formatter to format C# code (CSharp). Check style or format it. In separate commits or squash them into one. 
+description: Auto formatter to format C# code (CS, CSharp). Check style or format it. In separate commits or squash them into one. 
 author: SilvaUnCompte
 branding:
   icon: 'activity'
@@ -14,11 +14,11 @@ inputs:
     description: 'The path to the scripts you want formatted.'
     required: true
     default: './Assets/Scripts/'
-  check-only:
+  check_only:
     description: 'Perform only a style check (true) or format it (false).'
     required: false
     default: 'false' # true|false
-  squash-commit:
+  squash_commit:
     description: 'How the action manage the commit, edit the previous one (true) or create a new one (false).'
     required: false
     default: 'false' # true|false

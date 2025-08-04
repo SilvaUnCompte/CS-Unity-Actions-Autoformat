@@ -17,8 +17,8 @@ Here's the original gist → https://gist.github.com/shiena/197f949bc513858a8588
           uses: SilvaUnCompte/CS-Unity-Actions-Autoformat@v1.0.0 # check available version before using
           with:
             path: ./Assets/Scripts/ # Path to your scripts directory
-            check-only: 'false' # Set to 'true' to check formatting only without making any changes (true|false; default: 'false')
-            squash-commit: 'true' # Set to 'true' to edit the previous commit instead of creating a new one (true|false; default: 'false')
+            check_only: 'false' # Set to 'true' to check formatting only without making any changes (true|false; default: 'false')
+            squash_commit: 'true' # Set to 'true' to edit the previous commit instead of creating a new one (true|false; default: 'false')
 ```
 Check out [example-workflow.yml](example-workflow.yml) for a full example of this action in use.
 
