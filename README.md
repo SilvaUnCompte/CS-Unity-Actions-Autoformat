@@ -29,15 +29,15 @@ It all depends on the options:
 
 - With the `check-only` option set to false:
 
-      - With the `squash-commit` option set to false: it takes the path, formats all scripts, validates all files in a new commit, then push them to the active branch.
+  - With the `squash-commit` option set to false: it takes the path, formats all scripts, validates all files in a new commit, then push them to the active branch.
 
-      - With the `squash-commit` option enabled: it takes the path, formats all scripts, validates all files and modifies the last commit.
+  - With the `squash-commit` option enabled: it takes the path, formats all scripts, validates all files and modifies the last commit.
 
 > *By default, `check-only` and `squash-commit` are disabled.*
 
 
 ## Config
-The formatting align its rules with the `.editorconfig` file at the root. This is a standard file. Documentation here: [learn.microsoft](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-style-rule-options)
+The formatting align its rules with the `.editorconfig` file at the root. This is a standard file. Documentation here: [https://learn.microsoft.com..](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-style-rule-options)
 
 Here is an example:
 ```conf
