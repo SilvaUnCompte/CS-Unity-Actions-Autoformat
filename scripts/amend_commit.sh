@@ -1,13 +1,8 @@
 #!/bin/bash
 
-local TMP_FILE
 TMP_FILE=$(mktemp)
 
 git log -1 --pretty=%B > "$TMP_FILE"
-
-local TITLE
-local BODY
-local NEW_BODY
 
 TITLE=$(head -n1 "$TMP_FILE")
 BODY=$(tail -n +2 "$TMP_FILE" | sed '/./,$!d')  # Clean up empty lines at the start
