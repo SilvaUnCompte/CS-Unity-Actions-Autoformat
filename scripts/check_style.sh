@@ -28,4 +28,4 @@ dotnet restore "$tmp_dir/tempCheckStyle.sln"
 dotnet msbuild -nologo -t:GenerateCompileDependencyCache -v:q | grep Compile # delete me !!!!!!!!!!!!!!!!!!!!!!
 
 # Run dotnet format in check mode with severity
-dotnet format "$tmp_dir/tempCheckStyle.sln" --check --fix-style "$check_severity"
+dotnet format "$tmp_dir/tempCheckStyle.sln" --check --fix-style "$check_severity" -v diag
