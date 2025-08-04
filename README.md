@@ -2,23 +2,99 @@
 
 This action can be used to auto format the scripts in your Unity project! Making it easier to work with others with different formatting. I'm active on Github so pull requests and issues are welcome!
 
-This action is built on top of the work of others, so a big thank you to `andstor/file-existence-action@v1.0.1`, `andstor/file-existence-action@v1.0.1`, and @shiena for the inspiration!
+This action is built on top of the work of others, so a big thank you to `tyirvine/Unity-Actions-Autoformat@1.0.6`, `andstor/file-existence-action@v1.0.1`, `andstor/file-existence-action@v1.0.1`, and @shiena for the inspiration!
 
 Here's the original gist → https://gist.github.com/shiena/197f949bc513858a85883d5529730310
 
 ## Usage
 
 ```yaml
-      - name: Unity Auto Format
-        uses: tyirvine/Unity-Actions-Autoformat@v1.0.5
-        with:
-          path: './Assets/Scripts/'
+      steps:
+        - uses: actions/checkout@v4 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+
+        # Runs a single command using the runners shell
+        - name: Unity Auto Format
+          uses: SilvaUnCompte/CS-Unity-Actions-Autoformat@v1.0.0 # check available version before using
+          with:
+            path: ./Assets/Scripts/ # Path to your scripts directory
+            check-only: 'false' # Set to 'true' to check formatting only without making any changes (true|false; default: 'false')
+            squash-commit: 'true' # Set to 'true' to edit the previous commit instead of creating a new one (true|false; default: 'false')
 ```
-Check out [example-workflow.yml](example-workflow.yml) for a full example of this action in use!
+Check out [example-workflow.yml](example-workflow.yml) for a full example of this action in use.
 
 ## What it does
-It takes in the path, formats all the scripts, commits all the files, then pushes to the active branch.
+It all depends on the options:
 
-## Change Log
-* March 19th 2021 - Turned workflow into a single shell script! Much easier to add in now.
-* March 16th 2021 - For some reason the workflow was failing, likely due to a change in another action being used. I updated the workflow for reliability. It now relies on less Actions and instead just formats using `dotnet format ./pathToScripts --folder` right in the shell, then checks for changes, and commits & pushes if so.
+- With the `check-only` option enabled: it takes the path, checks the style and generates an error if the style does not match.
+
+- With the `check-only` option set to false:
+
+      - With the `squash-commit` option set to false: it takes the path, formats all scripts, validates all files in a new commit, then push them to the active branch.
+
+      - With the `squash-commit` option enabled: it takes the path, formats all scripts, validates all files and modifies the last commit.
+
+> *By default, `check-only` and `squash-commit` are disabled.*
+
+
+## Config
+The formatting align its rules with the `.editorconfig` file at the root. This is a standard file. Documentation here: [learn.microsoft](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-style-rule-options)
+
+Here is an example:
+```conf
+# top-most EditorConfig file
+root = true
+
+# All C# files
+[*.cs]
+
+# Indentation
+indent_style = space
+indent_size = 4
+
+# Line endings
+end_of_line = lf
+charset = utf-8-bom
+
+# Trim whitespace
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# dotnet code style rules
+dotnet_sort_system_directives_first = true
+dotnet_separate_import_directive_groups = false
+dotnet_style_qualification_for_field = false:suggestion
+dotnet_style_qualification_for_property = false:suggestion
+dotnet_style_qualification_for_method = false:suggestion
+dotnet_style_qualification_for_event = false:suggestion
+
+# Expression preferences
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
+dotnet_style_prefer_auto_properties = true:suggestion
+
+# Require visibility modifiers (public/private)
+dotnet_style_require_accessibility_modifiers = always:suggestion
+
+# Prefer null propagation
+dotnet_style_coalesce_expression = true:suggestion
+dotnet_style_null_propagation = true:suggestion
+
+# C# specific formatting
+csharp_new_line_before_open_brace = all
+csharp_indent_case_contents = true
+csharp_indent_switch_labels = true
+csharp_prefer_braces = true:suggestion
+csharp_prefer_simple_default_expression = true:suggestion
+
+# Use 'var' only when the type is apparent
+csharp_style_var_for_built_in_types = false:suggestion
+csharp_style_var_when_type_is_apparent = false:suggestion
+csharp_style_var_elsewhere = false:suggestion
+
+# Prefer expression-bodied members only for lambdas
+csharp_style_expression_bodied_methods = false:suggestion
+csharp_style_expression_bodied_properties = false:suggestion
+
+# Prefer object/collection initializers
+dotnet_style_object_initializer = true:suggestion
+dotnet_style_collection_initializer = true:suggestion
+```
