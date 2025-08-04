@@ -1,13 +1,22 @@
 #!/bin/sh -l
 
 # Setup colours
-Reset='\033[0m'       # Text Reset
-Red='\033[0;31m'          # Red
-Green='\033[0;32m'        # Green
-Yellow='\033[0;33m'       # Yellow
+Reset='\033[0m'         # Text Reset
+Red='\033[0;31m'        # Red
+Green='\033[0;32m'      # Green
+Yellow='\033[0;33m'     # Yellow
+
+# Import the amend_commit function
+source ./amend_commit.sh
 
 # Setup variables
-path=$1
+path="$INPUT_PATH"
+check_only="$INPUT_CHECK_ONLY"
+squash_commit="$INPUT_SQUASH_COMMIT"
+
+# Get GitHub branch information
+BRANCH=$(echo "$GITHUB_REF" | sed 's|refs/heads/||')
+
 
 # Install dotnet
 dotnet tool install -g dotnet-format
@@ -15,9 +24,10 @@ dotnet tool install -g dotnet-format
 # Set the path to the tool
 export PATH="$PATH:/github/home/.dotnet/tools"
 
+
 # Clean up the console
 printf "\n"
-printf "${Yellow}==================== BEGIN FORMATTING ====================${Reset}"
+printf "\n${Yellow}==================== BEGIN FORMATTING ====================${Reset}"
 printf "\n"
 printf "\n"
 
@@ -26,34 +36,51 @@ printf "\n"
 if [ -d $path ]; then
 
     # Announce that the path exists
-    echo "${Green}$path exists ${Reset}✅"
+    echo "${Green}$path exists!${Reset}"
 
-    # Format files in folder
-    dotnet format -f -w $path
+    if [ "$check_only" = "true" ]; then
+        echo "${Yellow}Check-only mode enabled${Reset}"
 
-    # Check for changes
-    if [ -n "$(git status --porcelain)" ]; then
-        # Changes
-        echo "${Green}Changes detected${Reset}"
-
-        # Configure Git
-        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git config --global user.name "github-actions[bot]"
-
-        # Commit
-        git add -A
-        git commit -m "Formatted Scripts"
-
-        # Push
-        git push
-
+        # Check files in folder
+        dotnet format -f -w $path --verify-no-changes --severity error
     else
-        # No changes
-        echo "No changes detected"
+        echo "${Yellow}Auto-formatting enabled${Reset}"
 
+        # Format files in folder
+        dotnet format -f -w $path
+
+        # Check for changes
+        if [ -n "$(git status --porcelain)" ]; then
+            # Changes
+            echo "${Green}Changes detected${Reset}"
+
+            # Configure Git
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git config user.name "github-actions[bot]"
+            git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+
+            # Commit
+            git add -A
+
+            if [ "$squash_commit" = "true" ]; then
+                # Squash commit
+                amend_with_format_note
+            else
+                # Regular commit
+                git commit -m "Formatted Scripts"
+            fi
+
+            # Push
+            git push --force-with-lease origin "$BRANCH"
+
+            echo "${Green}Changes pushed to $BRANCH${Reset}"
+        else
+            # No changes
+            echo "${Green}No changes detected${Reset}"
+        fi
     fi
-
+    printf "\n${Yellow}==================== END FORMATTING ====================${Reset}"
+    printf "\n"
 else
     echo "${Red}$path does not exist${Reset}"
-
 fi
