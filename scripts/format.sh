@@ -14,6 +14,10 @@ path="$INPUT_PATH"
 check_only="$INPUT_CHECK_ONLY"
 squash_commit="$INPUT_SQUASH_COMMIT"
 
+echo "Path: $path"
+echo "Check only: $check_only"
+echo "Squash commit: $squash_commit"
+
 # Get GitHub branch information
 BRANCH=$(echo "$GITHUB_REF" | sed 's|refs/heads/||')
 
@@ -64,9 +68,11 @@ if [ -d "$path" ]; then
 
             if [ "$squash_commit" = "true" ]; then
                 # Squash commit
+                echo "${Yellow}Squash committing changes${Reset}"
                 amend_with_format_note
             else
                 # Regular commit
+                echo "${Yellow}Committing changes${Reset}"
                 git commit -m "Formatted Scripts"
             fi
 
