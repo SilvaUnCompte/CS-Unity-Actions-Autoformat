@@ -6,9 +6,6 @@ Red='\033[0;31m'        # Red
 Green='\033[0;32m'      # Green
 Yellow='\033[0;33m'     # Yellow
 
-# Import the amend_commit function
-source /amend_commit.sh
-
 # Setup variables
 path="$INPUT_PATH"
 check_only="$INPUT_CHECK_ONLY"
@@ -69,7 +66,7 @@ if [ -d "$path" ]; then
             if [ "$squash_commit" = "true" ]; then
                 # Squash commit
                 echo "${Yellow}Squash committing changes${Reset}"
-                amend_with_format_note
+                . /amend_commit.sh
             else
                 # Regular commit
                 echo "${Yellow}Committing changes${Reset}"
