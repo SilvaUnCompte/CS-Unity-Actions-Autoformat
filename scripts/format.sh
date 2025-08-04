@@ -67,7 +67,7 @@ if [ -d "$path" ]; then
             if [ "$squash_commit" = "true" ]; then
                 # Squash commit
                 echo "${Yellow}Squash committing changes${Reset}"
-                . /amend_commit.sh
+                git commit --amend --no-edit
             else
                 # Regular commit
                 echo "${Yellow}Committing changes${Reset}"
