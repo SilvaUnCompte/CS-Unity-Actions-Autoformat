@@ -10,9 +10,17 @@ branding:
 # This is where we gather the inputs for the action
 inputs:
   path:
-    description: 'The path to the scripts you want formatted ⤵︎'
+    description: 'The path to the scripts you want formatted.'
     required: true
     default: './Assets/Scripts/'
+  check-only:
+    description: 'Perform only a style check (true) or format it (false).'
+    required: false
+    default: 'false' # true|false
+  squash-commit:
+    description: 'How the action manage the commit, edit the previous one (true) or create a new one (false).'
+    required: false
+    default: 'false' # true|false
   
 # The inputs above are then fed into a the Dockerfile
 runs:
