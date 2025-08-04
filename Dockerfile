@@ -5,5 +5,8 @@ FROM mcr.microsoft.com/dotnet/sdk:5.0
 COPY scripts/format.sh /format.sh
 COPY scripts/amend_commit.sh /amend_commit.sh
 
+RUN chmod +x /format.sh
+RUN chmod +x /amend_commit.sh
+
 # Code file to execute when the docker container starts up (`entrypoint.sh`)
 ENTRYPOINT ["/format.sh"]
