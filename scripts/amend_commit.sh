@@ -19,5 +19,8 @@ fi
     echo -e "$NEW_BODY"
 } > "$TMP_FILE"
 
-git commit --amend -F "$TMP_FILE"
+git reset HEAD~1
+git add -A
+git commit -F "$TMP_FILE"
+
 rm "$TMP_FILE"
