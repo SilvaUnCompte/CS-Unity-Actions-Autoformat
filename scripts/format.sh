@@ -60,14 +60,16 @@ if [ -d "$path" ]; then
             git config user.name "github-actions[bot]"
             git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
             git checkout "$BRANCH"
-
+            echo "$(git status)"
+            git fetch origin "$BRANCH"
+            echo "$(git status)"
             # Commit
-            git add -u
-
+            git add .
+            echo "$(git status)"
             if [ "$squash_commit" = "true" ]; then
                 # Squash commit
                 echo "${Yellow}Squash committing changes${Reset}"
-                git commit --amend --no-edit
+                . /amend_commit.sh
             else
                 # Regular commit
                 echo "${Yellow}Committing changes${Reset}"
