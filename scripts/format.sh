@@ -62,7 +62,7 @@ if [ -d "$path" ]; then
             git checkout "$BRANCH"
 
             # Commit
-            git add -A
+            git add -u
 
             if [ "$squash_commit" = "true" ]; then
                 # Squash commit
