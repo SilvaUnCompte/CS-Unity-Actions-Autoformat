@@ -18,6 +18,10 @@ inputs:
     description: 'Perform only a style check (true) or format it (false).'
     required: false
     default: 'false' # true|false
+  check_severity:
+    description: 'Set the severity of style checks, either "warn" or "error".'
+    required: false
+    default: 'error' # warn|error
   squash_commit:
     description: 'How the action manage the commit, edit the previous one (true) or create a new one (false).'
     required: false

@@ -9,10 +9,17 @@ Yellow='\033[0;33m'     # Yellow
 # Setup variables
 path="$INPUT_PATH"
 check_only="$INPUT_CHECK_ONLY"
+check_severity="$INPUT_CHECK_SEVERITY"
 squash_commit="$INPUT_SQUASH_COMMIT"
+
+# Force check_severity to 'warn' or 'error', otherwise default to 'error'
+if [ "$check_severity" != "warn" ] && [ "$check_severity" != "error" ]; then
+    check_severity="error"
+fi
 
 echo "Path: $path"
 echo "Check only: $check_only"
+echo "Check severity: $check_severity"
 echo "Squash commit: $squash_commit"
 
 # Get GitHub branch information
@@ -41,14 +48,12 @@ if [ -d "$path" ]; then
 
     if [ "$check_only" = "true" ]; then
         echo "${Yellow}Check-only mode enabled${Reset}"
-
-        # Check files in folder
-        dotnet format -f -w "$path" --verify-no-changes --severity error
+        . /check_style.sh
     else
         echo "${Yellow}Auto-formatting enabled${Reset}"
 
         # Format files in folder
-        dotnet format -f -w "$path"
+        dotnet format -f "$path"
 
         # Check for changes
         if [ -n "$(git status --porcelain)" ]; then

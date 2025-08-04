@@ -9,25 +9,28 @@ Here's the original gist → https://gist.github.com/shiena/197f949bc513858a8588
 ## Usage
 
 ```yaml
-      steps:
-        - uses: actions/checkout@v4 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    steps:
+      - uses: actions/checkout@v4 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+        with:
+          fetch-depth: 2  # Needed if you want to amend the last commit (e.g. for squash commits)
 
-        # Runs a single command using the runners shell
-        - name: Unity Auto Format
-          uses: SilvaUnCompte/CS-Unity-Actions-Autoformat@v1.0.0 # check available version before using
-          with:
-            path: ./Assets/Scripts/ # Path to your scripts directory
-            check_only: 'false' # Set to 'true' to check formatting only without making any changes (true|false; default: 'false')
-            squash_commit: 'true' # Set to 'true' to edit the previous commit instead of creating a new one (true|false; default: 'false')
+      # Runs a single command using the runners shell
+      - name: Unity Auto Format
+        uses: SilvaUnCompte/CS-Unity-Actions-Autoformat@v1.0.0 # check available version before using
+        with:
+          path: ./Assets/Scripts/ # Path to your scripts directory
+          check_only: 'false' # Set to 'true' to only verify formatting without making changes (true|false, default: 'false')
+          check_severity: 'warn' # Set to 'warn' or 'error' to specify the severity of style checks (warn|error, default: 'error')
+          squash_commit: 'true' # Set to 'true' to edit the previous commit instead of creating a new one (true|false, default: 'false')
 ```
 Check out [example-workflow.yml](example-workflow.yml) for a full example of this action in use.
 
 ## What it does
 It all depends on the options:
 
-- With the `check-only` option enabled: it takes the path, checks the style and generates an error if the style does not match.
+- With the `check-only` option enabled: it takes the path, checks the style and generates an error if the style does not match requirements. Only errors related to style tags defined as "error" in `.editorconfig` are reported. Or you can set `check_severity` to "warn" if you want to be more strict and report "warning" rules of `.editorconfig`.
 
-- With the `check-only` option set to false:
+- With the `check-only` option set to false (default):
 
   - With the `squash-commit` option set to false: it takes the path, formats all scripts, validates all files in a new commit, then push them to the active branch.
 
@@ -62,10 +65,10 @@ insert_final_newline = true
 # dotnet code style rules
 dotnet_sort_system_directives_first = true
 dotnet_separate_import_directive_groups = false
-dotnet_style_qualification_for_field = false:suggestion
-dotnet_style_qualification_for_property = false:suggestion
-dotnet_style_qualification_for_method = false:suggestion
-dotnet_style_qualification_for_event = false:suggestion
+dotnet_style_qualification_for_field = false:warning        # Set severity to warning
+dotnet_style_qualification_for_property = false:warning
+dotnet_style_qualification_for_method = false:warning
+dotnet_style_qualification_for_event = false:warning
 
 # Expression preferences
 dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
@@ -82,7 +85,7 @@ dotnet_style_null_propagation = true:suggestion
 csharp_new_line_before_open_brace = all
 csharp_indent_case_contents = true
 csharp_indent_switch_labels = true
-csharp_prefer_braces = true:suggestion
+csharp_prefer_braces = true:error                           # Set severity to error
 csharp_prefer_simple_default_expression = true:suggestion
 
 # Use 'var' only when the type is apparent
