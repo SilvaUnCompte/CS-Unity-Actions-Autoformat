@@ -59,6 +59,7 @@ if [ -d "$path" ]; then
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git config user.name "github-actions[bot]"
             git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+            git checkout "$BRANCH"
 
             # Commit
             git add -A
@@ -74,7 +75,7 @@ if [ -d "$path" ]; then
             fi
 
             # Push
-            git push --force-with-lease origin "$BRANCH"
+            git push --force-with-lease
 
             echo "${Green}Changes pushed to $BRANCH${Reset}"
         else
