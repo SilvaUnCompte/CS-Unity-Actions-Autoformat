@@ -33,7 +33,7 @@ printf "\n"
 
 
 # Confirm existence of folder
-if [ -d $path ]; then
+if [ -d "$path" ]; then
 
     # Announce that the path exists
     echo "${Green}$path exists!${Reset}"
@@ -42,12 +42,12 @@ if [ -d $path ]; then
         echo "${Yellow}Check-only mode enabled${Reset}"
 
         # Check files in folder
-        dotnet format -f -w $path --verify-no-changes --severity error
+        dotnet format -f -w "$path" --verify-no-changes --severity error
     else
         echo "${Yellow}Auto-formatting enabled${Reset}"
 
         # Format files in folder
-        dotnet format -f -w $path
+        dotnet format -f -w "$path"
 
         # Check for changes
         if [ -n "$(git status --porcelain)" ]; then
@@ -57,7 +57,7 @@ if [ -d $path ]; then
             # Configure Git
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git config user.name "github-actions[bot]"
-            git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+            git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 
             # Commit
             git add -A
