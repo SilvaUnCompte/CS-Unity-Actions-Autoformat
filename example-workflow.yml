@@ -3,7 +3,6 @@ name: Format Scripts
 
 # Controls when the action will run. 
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches:
       - "**"
@@ -11,22 +10,18 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+  auto-formatting: # This workflow contains a single job called "auto-formatting"
+    
+    runs-on: ubuntu-latest # The type of runner that the job will run on
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
 
       # Runs a single command using the runners shell
       - name: Unity Auto Format
-        # You may pin to the exact commit or the version.
-        # uses: tyirvine/Unity-Actions-Autoformat@2130bb3289214c8ed397d9dd168b314477035d9d
-        uses: tyirvine/Unity-Actions-Autoformat@v1.0.5
+        uses: SilvaUnCompte/CS-Unity-Actions-Autoformat@v1.0.0 # check available version before using
         with:
-          path: ./Assets/Scripts/
+          path: ./Assets/Scripts/ # Path to your scripts directory
+          check-only: 'false' # Set to 'true' to only verify formatting without making changes (true|false, default: 'false')
+          squash-commit: 'true' # Set to 'true' to edit the previous commit instead of creating a new one (true|false, default: 'false')
