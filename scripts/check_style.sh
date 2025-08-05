@@ -1,6 +1,7 @@
 #!/bin/bash
 
 PROJECT_NAME="tempCheckStyle"
+OUTPUT_FILE=$(mktemp)
 
 # Create new console project
 dotnet new console --no-restore
@@ -34,10 +35,11 @@ dotnet sln "$PROJECT_NAME.sln" add "$csproj"
 dotnet restore "$PROJECT_NAME.sln"
 
 # Run dotnet format in check mode with severity
-dotnet format "tempCheckStyle.sln" --check --fix-style "$check_severity" --include "$path" -v diag
-
-# Capture the exit code
+dotnet format "tempCheckStyle.sln" --check --fix-style "$check_severity" --include "$path" -v diag > "$OUTPUT_FILE"
 exit_code=$?
+
+# Show the output without compilation errors
+grep -v "error CS" "$OUTPUT_FILE"
 
 if [ "$exit_code" -eq 2 ]; then
   echo -e "${Red} Format check failed: some files do not respect formatting rules.${Reset}"
