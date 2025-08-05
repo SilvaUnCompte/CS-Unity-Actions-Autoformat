@@ -14,6 +14,11 @@ if [ -z "$csproj" ]; then
 fi
 echo "${Green}Project file found: $csproj${Reset}"
 
+# sed -i "/<Project / a\
+#   <PropertyGroup>\n\
+#     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>\n\
+#   </PropertyGroup>" "$csproj"
+# 
 # sed -i "/<\/Project>/ i\
 #   <ItemGroup>\n\
 #     <Compile Include=\"$path/**/*.cs\" />\n\
@@ -30,3 +35,16 @@ dotnet restore "$PROJECT_NAME.sln"
 
 # Run dotnet format in check mode with severity
 dotnet format "tempCheckStyle.sln" --check --fix-style "$check_severity" --include "$path" -v diag
+
+# Capture the exit code
+exit_code=$?
+
+if [ "$exit_code" -eq 2 ]; then
+  echo -e "${Red} Format check failed: some files do not respect formatting rules.${Reset}"
+  exit 1
+elif [ "$exit_code" -ne 0 ]; then
+  echo -e "${Red} dotnet format failed with unexpected error (code $exit_code)${Reset}"
+  exit "$exit_code"
+else
+  echo -e "${Green}All files are correctly formatted.${Reset}"
+fi
