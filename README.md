@@ -1,6 +1,7 @@
-# Unity Auto Format 🔎
+# C# Unity Auto Formatter
 
-This action can be used to auto format the scripts in your Unity project! Making it easier to work with others with different formatting. I'm active on Github so pull requests and issues are welcome!
+This action can be used to check or auto format C# scripts like in Unity project. Works with all type of project containing .cs files.
+I'm active on Github so pull requests and issues are welcome.
 
 This action is built on top of the work of others, so a big thank you to `tyirvine/Unity-Actions-Autoformat@1.0.6`, `andstor/file-existence-action@v1.0.1`, `andstor/file-existence-action@v1.0.1`, and @shiena for the inspiration!
 
@@ -9,19 +10,19 @@ Here's the original gist → https://gist.github.com/shiena/197f949bc513858a8588
 ## Usage
 
 ```yaml
-    steps:
-      - uses: actions/checkout@v4 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-        with:
-          fetch-depth: 2  # Needed if you want to amend the last commit (e.g. for squash commits)
+  steps:
+    - uses: actions/checkout@v4 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      with:
+        fetch-depth: 2  # Needed if you want to amend the last commit (e.g. for squash commits)
 
-      # Runs a single command using the runners shell
-      - name: Unity Auto Format
-        uses: SilvaUnCompte/CS-Unity-Actions-Autoformat@v1.0.0 # check available version before using
-        with:
-          path: ./Assets/Scripts/ # Path to your scripts directory
-          check_only: 'false' # Set to 'true' to only verify formatting without making changes (true|false, default: 'false')
-          check_severity: 'warn' # Set to 'warn' or 'error' to specify the severity of style checks (warn|error, default: 'error')
-          squash_commit: 'true' # Set to 'true' to edit the previous commit instead of creating a new one (true|false, default: 'false')
+    # Runs a single command using the runners shell
+    - name: Unity Auto Format
+      uses: SilvaUnCompte/CS-Unity-Actions-Autoformat@v1.0.0 # check available version before using
+      with:
+        path: ./Assets/Scripts/ # Path to your scripts directory
+        check_only: 'false' # Set to 'true' to only verify formatting without making changes (true|false, default: 'false')
+        check_severity: 'warn' # Set to 'warn' or 'error' to specify the severity of style checks (warn|error, default: 'error')
+        squash_commit: 'true' # Set to 'true' to edit the previous commit instead of creating a new one (true|false, default: 'false')
 ```
 Check out [example-workflow.yml](example-workflow.yml) for a full example of this action in use.
 
