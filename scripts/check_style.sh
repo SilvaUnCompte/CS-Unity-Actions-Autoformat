@@ -16,7 +16,7 @@ echo "${Green}Project file found: $csproj${Reset}"
 
 sed -i "/<\/Project>/ i\
   <ItemGroup>\n\
-    <Compile Include=\"$path/**/*.cs\" />\n\
+    <Compile Include=\"$path**/*.cs\" />\n\
   </ItemGroup>" "$csproj"
 
 # Create solution
