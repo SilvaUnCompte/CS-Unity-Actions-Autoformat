@@ -36,7 +36,7 @@ dotnet restore "$PROJECT_NAME.sln"
 
 # Run dotnet format in check mode with severity
 dotnet format "tempCheckStyle.sln" --fix-style "$check_severity" --include "$path" -v diag > "$OUTPUT_FILE" 2>&1
-echo "$OUTPUT_FILE"
+cat "$OUTPUT_FILE"
 
 echo "${Yellow}==================== BEGIN CHECK STYLE ====================${Reset}"
 
