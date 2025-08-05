@@ -42,18 +42,35 @@ echo "${Yellow}==================== BEGIN CHECK STYLE ====================${Rese
 
 # Filter the output for warnings and errors
 filtered_output=$(grep -E "warning|error" "$OUTPUT_FILE" | grep -vE "CS[0-9]{4}" || true)
+filtered_build_output=$(grep -E "warning CS[0-9]{4}" "$OUTPUT_FILE" || true)
 echo "$filtered_output"
+echo "$filtered_build_output"
 
 # Count the number of lines in the filtered output
 line_count=$(echo "$filtered_output" | grep -cve '^\s*$')
+line_count_build=$(echo "$filtered_build_output" | grep -cve '^\s*$')
 
 echo "${Yellow}==================== END CHECK STYLE ====================${Reset}"
+
+# Build output handling
+# Result handling
+if [ $line_count_build -gt 0 ]; then
+    echo "${Red}Build warnings found $line_count_build issues.${Reset}"
+else
+    echo "${Green}No build issues found.${Reset}"
+fi
 
 # Result handling
 if [ $line_count -gt 0 ]; then
     echo "${Red}Check style found $line_count issues.${Reset}"
+else
+    echo "${Green}No check style issues found.${Reset}"
+fi
+
+if [ $line_count -gt 0 ] || [ $line_count_build -gt 0 ]; then
+    echo "${Red}Exiting with errors.${Reset}"
     exit 1
 else
-    echo "${Green}No issues found.${Reset}"
+    echo "${Green}No issues found, exiting successfully.${Reset}"
     exit 0
 fi
