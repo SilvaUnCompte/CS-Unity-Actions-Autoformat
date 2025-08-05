@@ -38,12 +38,13 @@ It all depends on the options:
 
 > *By default, `check-only` and `squash-commit` are disabled.*
 
+If you need to apply the formatter to all files, set `path` to "./"
 
 ## Config
 The formatting align its rules with the `.editorconfig` file at the root. This is a standard file. Documentation here: [https://learn.microsoft.com..](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-style-rule-options)
 
 Here is an example:
-```conf
+```bash
 # top-most EditorConfig file
 root = true
 
