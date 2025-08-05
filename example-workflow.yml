@@ -9,6 +9,24 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+    inputs:
+      path:
+        description: 'Path to the scripts directory'
+        required: true
+        default: './Assets/Scripts/'
+      check_only:
+        description: 'Check only without making changes'
+        required: false
+        default: 'false'
+      check_severity:
+        description: 'Severity of style checks'
+        required: false
+        default: 'error'
+      squash_commit:
+        description: 'Whether to squash commits or not'
+        required: false
+        default: 'false'
+
 
 jobs:
   auto-formatting: # This workflow contains a single job called "auto-formatting"
