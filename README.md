@@ -44,7 +44,7 @@ If you need to apply the formatter to all files, set `path` to "./"
 ## Config
 The formatting align its rules with the `.editorconfig` file at the root. This is a standard file. Documentation here: [https://learn.microsoft.com..](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-style-rule-options)
 
-Here is an example:
+Here is an example: [.editorconfig](./example-.editorconfig)
 ```bash
 # top-most EditorConfig file
 root = true
@@ -53,12 +53,8 @@ root = true
 [*.cs]
 
 # Indentation
-indent_style = space
-indent_size = 4
-
-# Line endings
-end_of_line = lf
-charset = utf-8-bom
+indent_style = space:error
+indent_size = 4:error
 
 # Trim whitespace
 trim_trailing_whitespace = true
@@ -67,37 +63,38 @@ insert_final_newline = true
 # dotnet code style rules
 dotnet_sort_system_directives_first = true
 dotnet_separate_import_directive_groups = false
-dotnet_style_qualification_for_field = false:warning        # Set severity to warning
-dotnet_style_qualification_for_property = false:warning
-dotnet_style_qualification_for_method = false:warning
-dotnet_style_qualification_for_event = false:warning
+
+dotnet_style_qualification_for_field = false:silent
+dotnet_style_qualification_for_property = false:silent
+dotnet_style_qualification_for_method = false:silent
+dotnet_style_qualification_for_event = false:silent
 
 # Expression preferences
-dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
-dotnet_style_prefer_auto_properties = true:suggestion
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:none
+dotnet_style_prefer_auto_properties = false:suggestion
 
 # Require visibility modifiers (public/private)
-dotnet_style_require_accessibility_modifiers = always:suggestion
+dotnet_style_require_accessibility_modifiers = always:suggestion   # !!
 
 # Prefer null propagation
 dotnet_style_coalesce_expression = true:suggestion
-dotnet_style_null_propagation = true:suggestion
+dotnet_style_null_propagation = false:silent
 
 # C# specific formatting
-csharp_new_line_before_open_brace = all
-csharp_indent_case_contents = true
-csharp_indent_switch_labels = true
-csharp_prefer_braces = true:error                           # Set severity to error
+csharp_new_line_before_open_brace = all:suggestion  # !!
+csharp_indent_case_contents = true:warning
+csharp_indent_switch_labels = true:warning
+csharp_prefer_braces = false
 csharp_prefer_simple_default_expression = true:suggestion
 
 # Use 'var' only when the type is apparent
-csharp_style_var_for_built_in_types = false:suggestion
-csharp_style_var_when_type_is_apparent = false:suggestion
-csharp_style_var_elsewhere = false:suggestion
+csharp_style_var_for_built_in_types = false:warning
+csharp_style_var_when_type_is_apparent = false:warning
+csharp_style_var_elsewhere = false:warning
 
 # Prefer expression-bodied members only for lambdas
-csharp_style_expression_bodied_methods = false:suggestion
-csharp_style_expression_bodied_properties = false:suggestion
+csharp_style_expression_bodied_methods = true
+csharp_style_expression_bodied_properties = true
 
 # Prefer object/collection initializers
 dotnet_style_object_initializer = true:suggestion
