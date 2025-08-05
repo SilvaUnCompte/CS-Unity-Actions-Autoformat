@@ -4,28 +4,30 @@ tmp_dir=$(mktemp -d)
 echo "Using temp directory $tmp_dir"
 
 # Create new console project
-dotnet new console -o "$tmp_dir/tempProject" --no-restore
-
-# Copy all .cs files recursively preserving folders
-find "$path" -name '*.cs' -exec cp --parents {} "$tmp_dir/tempProject" \;
+dotnet new console --no-restore
 
 # Modify csproj to include all .cs files recursively
-csproj="$tmp_dir/tempProject/tempProject.csproj"
+csproj=$(find "./" -maxdepth 1 -name "*.csproj" | head -n 1)
+
+if [ -z "$csproj" ]; then
+  echo "${Red}No .csproj file found. "dotnet new" probably failed.${Reset}"
+  exit 1
+fi
+echo "${Green}Project file found: $csproj${Reset}"
+
 sed -i '/<\/Project>/ i\
   <ItemGroup>\
-    <Compile Include="**\*.cs" />\
+    <Compile Include="**\\*.cs" />\
   </ItemGroup>' "$csproj"
 
-# Create solution with explicit name
-dotnet new sln -o "$tmp_dir" -n tempCheckStyle
+# Create solution
+dotnet new sln -n tempCheckStyle
 
 # Add project to the solution
-dotnet sln "$tmp_dir/tempCheckStyle.sln" add "$csproj"
+dotnet sln add "$csproj"
 
 # Restore dependencies (optional but recommended)
-dotnet restore "$tmp_dir/tempCheckStyle.sln"
-
-dotnet msbuild -nologo -t:GenerateCompileDependencyCache -v:q | grep Compile # delete me !!!!!!!!!!!!!!!!!!!!!!
+dotnet restore "tempCheckStyle.sln"
 
 # Run dotnet format in check mode with severity
-dotnet format "$tmp_dir/tempCheckStyle.sln" --check --fix-style "$check_severity" -v diag
+dotnet format "tempCheckStyle.sln" --check --fix-style "$check_severity" -v diag
