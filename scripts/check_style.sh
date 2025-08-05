@@ -14,10 +14,10 @@ if [ -z "$csproj" ]; then
 fi
 echo "${Green}Project file found: $csproj${Reset}"
 
-sed -i '/<\/Project>/ i\
-  <ItemGroup>\
-    <Compile Include="**\\*.cs" />\
-  </ItemGroup>' "$csproj"
+sed -i "/<\/Project>/ i\
+  <ItemGroup>\n\
+    <Compile Include=\"$path/**/*.cs\" />\n\
+  </ItemGroup>" "$csproj"
 
 # Create solution
 dotnet new sln -n "$PROJECT_NAME"
