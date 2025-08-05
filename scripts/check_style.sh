@@ -1,7 +1,6 @@
 #!/bin/bash
 
-tmp_dir=$(mktemp -d)
-echo "Using temp directory $tmp_dir"
+PROJECT_NAME="tempCheckStyle"
 
 # Create new console project
 dotnet new console --no-restore
@@ -21,13 +20,13 @@ sed -i '/<\/Project>/ i\
   </ItemGroup>' "$csproj"
 
 # Create solution
-dotnet new sln -n tempCheckStyle
+dotnet new sln -n "$PROJECT_NAME"
 
 # Add project to the solution
-dotnet sln add "$csproj"
+dotnet sln "$PROJECT_NAME.sln" add "$csproj"
 
 # Restore dependencies (optional but recommended)
-dotnet restore "tempCheckStyle.sln"
+dotnet restore "$PROJECT_NAME.sln"
 
 # Run dotnet format in check mode with severity
-dotnet format "tempCheckStyle.sln" --check --fix-style "$check_severity" -v diag
+dotnet format "$PROJECT_NAME.sln" --check --fix-style "$check_severity" -v diag
