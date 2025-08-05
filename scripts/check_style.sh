@@ -35,12 +35,12 @@ dotnet sln "$PROJECT_NAME.sln" add "$csproj"
 dotnet restore "$PROJECT_NAME.sln"
 
 # Run dotnet format in check mode with severity
-dotnet format "tempCheckStyle.sln" --check --fix-style "$check_severity" --include "$path" -v diag > "$OUTPUT_FILE" 2>&1
+dotnet format "tempCheckStyle.sln" --fix-style "$check_severity" --include "$path" -v diag > "$OUTPUT_FILE" 2>&1
 exit_code=$?
 
-# Show the output without compilation errors
-echo "${Yellow}Report:${Reset}"
-grep -v "error CS" "$OUTPUT_FILE"
+echo "${Yellow}==================== BEGIN CHECK STYLE ====================${Reset}"
+grep -E "warning|error" "$OUTPUT_FILE" | grep -vE "CS[0-9]{4}" || true
+echo "${Yellow}==================== END CHECK STYLE ====================${Reset}"
 
 if [ "$exit_code" -eq 2 ]; then
   echo "${Red} Format check failed: some files do not respect formatting rules.${Reset}"

@@ -88,7 +88,6 @@ if [ -d "$path" ]; then
             echo "${Green}No changes detected${Reset}"
         fi
     fi
-    printf "\n${Yellow}==================== END FORMATTING ====================${Reset}"
     printf "\n"
 else
     echo "${Red}$path does not exist${Reset}"
