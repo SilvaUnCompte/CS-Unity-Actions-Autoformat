@@ -35,7 +35,7 @@ dotnet sln "$PROJECT_NAME.sln" add "$csproj"
 dotnet restore "$PROJECT_NAME.sln"
 
 # Run dotnet format in check mode with severity
-dotnet format "tempCheckStyle.sln" --fix-style "$check_severity" --include "$path" -v diag > "$OUTPUT_FILE" 2>&1
+dotnet format "tempCheckStyle.sln" --check --fix-style "$check_severity" --include "$path" -v diag > "$OUTPUT_FILE" 2>&1
 cat "$OUTPUT_FILE"
 
 echo "${Yellow}==================== BEGIN CHECK STYLE ====================${Reset}"
