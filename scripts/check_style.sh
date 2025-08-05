@@ -16,7 +16,7 @@ echo "${Green}Project file found: $csproj${Reset}"
 
 sed -i "/<\/Project>/ i\
   <ItemGroup>\n\
-    <Compile Include=\"$path**/*.cs\" />\n\
+    <Compile Include=\"$path/**/*.cs\" />\n\
   </ItemGroup>" "$csproj"
 
 # Create solution
@@ -29,4 +29,4 @@ dotnet sln "$PROJECT_NAME.sln" add "$csproj"
 dotnet restore "$PROJECT_NAME.sln"
 
 # Run dotnet format in check mode with severity
-dotnet format "$PROJECT_NAME.sln" --check --fix-style "$check_severity" -v diag
+dotnet format "tempCheckStyle.sln" --check --fix-style "$check_severity" --include "$path" -v diag
