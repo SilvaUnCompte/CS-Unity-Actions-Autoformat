@@ -34,11 +34,11 @@ dotnet sln "$PROJECT_NAME.sln" add "$csproj"
 # Restore dependencies (optional but recommended)
 dotnet restore "$PROJECT_NAME.sln"
 
-
-echo "${Yellow}==================== BEGIN CHECK STYLE ====================${Reset}"
-
 # Run dotnet format in check mode with severity
 dotnet format "tempCheckStyle.sln" --fix-style "$check_severity" --include "$path" -v diag > "$OUTPUT_FILE" 2>&1
+echo "$OUTPUT_FILE"
+
+echo "${Yellow}==================== BEGIN CHECK STYLE ====================${Reset}"
 
 # Filter the output for warnings and errors
 filtered_output=$(grep -E "warning|error" "$OUTPUT_FILE" | grep -vE "CS[0-9]{4}" || true)
