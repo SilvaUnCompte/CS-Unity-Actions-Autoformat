@@ -5,6 +5,7 @@ Reset='\033[0m'         # Text Reset
 Red='\033[0;31m'        # Red
 Green='\033[0;32m'      # Green
 Yellow='\033[0;33m'     # Yellow
+Blue='\033[0;34m'       # Blue
 
 # ========= Setup variables =========
 path="$INPUT_PATH"
@@ -75,12 +76,12 @@ if [ -d "$path" ]; then
 
     if [ "$check_only" = "true" ]; then
         echo "${Yellow}Check-only mode enabled${Reset}"
-        . /check_style.sh
+        . "$GITHUB_ACTION_PATH/scripts/check-style/check_style.sh"
     else
         echo "${Yellow}Auto-formatting enabled${Reset}"
-        . /auto_format.sh
+        . "$GITHUB_ACTION_PATH/scripts/auto-format/auto_format.sh"
     fi
-    
+
     printf "\n"
 else
     echo "${Red}$path does not exist${Reset}"

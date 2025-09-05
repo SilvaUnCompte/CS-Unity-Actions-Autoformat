@@ -8,10 +8,6 @@ if [ -v DEBUG ]; then
   set -x
 fi
 
-# Setup colours
-Reset='\033[0m'         # Text Reset
-Blue='\033[0;34m'       # Blue
-
 # Script must receive a commit SHA as argument
 echo "${Blue}Commit sha: $1${Reset}"
 
