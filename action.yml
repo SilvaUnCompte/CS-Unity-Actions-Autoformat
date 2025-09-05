@@ -18,6 +18,10 @@ inputs:
     description: 'Perform only a style check (true) or format it (false).'
     required: false
     default: 'false' # true|false
+  diff_check:
+    description: 'Check only the files changed in the commit or PR (true) or all files in the path (false).'
+    required: false
+    default: 'false' # true|false
   check_severity:
     description: 'Set the severity of style checks, either "warn" or "error".'
     required: false
@@ -34,3 +38,7 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{ inputs.path }}
+    - ${{ inputs.check_only }}
+    - ${{ inputs.diff_check }}
+    - ${{ inputs.check_severity }}
+    - ${{ inputs.squash_commit }}

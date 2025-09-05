@@ -21,6 +21,7 @@ Here's the original gist → https://gist.github.com/shiena/197f949bc513858a8588
       with:
         path: ./Assets/Scripts/ # Path to your scripts directory
         check_only: 'false' # Set to 'true' to only verify formatting without making changes (true|false, default: 'false')
+        diff_check: 'false' # Set to 'true' to check only changed files, 'false' to check all files (true|false, default: 'false')
         check_severity: 'warn' # Set to 'warn' or 'error' to specify the severity of style checks (warn|error, default: 'error')
         squash_commit: 'true' # Set to 'true' to edit the previous commit instead of creating a new one (true|false, default: 'false')
 ```
@@ -29,15 +30,17 @@ Check out [example-workflow.yml](example-workflow.yml) for a full example of thi
 ## What it does
 It all depends on the options:
 
-- With the `check-only` option enabled: it takes the path, checks the style and generates an error if the style does not match requirements. Only errors related to style tags defined as "error" in `.editorconfig` are reported. Or you can set `check_severity` to "warn" if you want to be more strict and report "warning" rules of `.editorconfig`.
+- With the `check_only` option enabled: it takes the path, checks the style and generates an error if the style does not match requirements. Only errors related to style tags defined as "error" in `.editorconfig` are reported. Or you can set `check_severity` to "warn" if you want to be more strict and report "warning" rules of `.editorconfig`.
 
-- With the `check-only` option set to false (default):
+  - With the `diff_check` option set to true: checks only the changed lines.
 
-  - With the `squash-commit` option set to false: it takes the path, formats all scripts, validates all files in a new commit, then push them to the active branch.
+- With the `check_only` option set to false (default):
 
-  - With the `squash-commit` option enabled: it takes the path, formats all scripts, validates all files and modifies the last commit.
+  - With the `squash_commit` option set to false: it takes the path, formats all scripts, validates all files in a new commit, then push them to the active branch.
 
-> *By default, `check-only` and `squash-commit` are disabled.*
+  - With the `squash_commit` option enabled: it takes the path, formats all scripts, validates all files and modifies the last commit.
+
+> *By default, `check_only` and `squash_commit` are disabled.*
 
 If you need to apply the formatter to all files, set `path` to "./"
 
