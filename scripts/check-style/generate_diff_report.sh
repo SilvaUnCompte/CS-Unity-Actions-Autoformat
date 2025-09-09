@@ -1,24 +1,16 @@
 #!/bin/bash
 
-# Exit on error, undefined vars, and pipe failures
-set -euo pipefail
-
-# Enable debug mode if DEBUG env var is set
-if [ -v DEBUG ]; then
-  set -x
-fi
-
-COMMIT_SHA="$1"
-DIFF_FOLDER="$2"
+INPUT_COMMIT_SHA="$1"
+INPUT_DIFF_FOLDER="$2"
 
 # Script must receive a commit SHA as argument
-echo "${Blue}Commit sha: $COMMIT_SHA${Reset}"
+echo "${Blue}Commit sha: $INPUT_COMMIT_SHA${Reset}"
 
 
 # Step 1: Generate the raw git diff
 # Ignoring whitespace changes and showing only C# files
 echo "${Blue}Generating diff...${Reset}"
-git diff $COMMIT_SHA --ignore-space-at-eol --ignore-all-space --ignore-blank-lines --unified=0 -- "*.cs" > "$DIFF_FOLDER/diff.patch"
+git diff $INPUT_COMMIT_SHA --ignore-space-at-eol --ignore-all-space --ignore-blank-lines --unified=0 -- "*.cs" > "$INPUT_DIFF_FOLDER/diff.patch"
 
 
 # Step 2: Parse diff to generate a CSV-like output
@@ -56,6 +48,6 @@ $0 ~ /^\+/ {
     }
     line_count++
 }
-' "$DIFF_FOLDER/diff.patch" > "$DIFF_FOLDER/lines.patch"
+' "$INPUT_DIFF_FOLDER/diff.patch" > "$INPUT_DIFF_FOLDER/lines.patch"
 
-echo "${Blue}Report generated at $DIFF_FOLDER/lines.patch${Reset}"
+echo "${Blue}Report generated at $INPUT_DIFF_FOLDER/lines.patch${Reset}"
