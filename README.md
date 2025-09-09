@@ -5,6 +5,8 @@ I'm active on Github so pull requests and issues are welcome.
 
 This action is built on top of the work of others, so a big thank you to [`tyirvine/Unity-Actions-Autoformat@1.0.6`](https://github.com/tyirvine/Unity-Actions-Autoformat), [`andstor/file-existence-action@v1.0.1`](https://github.com/andstor/file-existence-action) and @shiena's [gist](https://gist.github.com/shiena/197f949bc513858a85883d5529730310) for the inspiration!
 
+I'm active on github, if you encounter any problem, please contact me or open an issue.
+
 ## Usage
 
 ```yaml
@@ -15,7 +17,7 @@ This action is built on top of the work of others, so a big thank you to [`tyirv
 
     # Runs a single command using the runners shell
     - name: Unity Auto Format
-      uses: SilvaUnCompte/CS-Unity-Actions-Autoformat@v1.0.0 # check available version before using
+      uses: SilvaUnCompte/CS-Unity-Actions-Autoformat@v1.1.0 # check available version before using
       with:
         path: ./Assets/Scripts/ # Path to your scripts directory
         check_only: 'false' # Set to 'true' to only verify formatting without making changes (true|false, default: 'false')
