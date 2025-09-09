@@ -76,10 +76,10 @@ if [ -d "$path" ]; then
 
     if [ "$check_only" = "true" ]; then
         echo "${Yellow}Check-only mode enabled${Reset}"
-        . "$GITHUB_ACTION_PATH/scripts/check-style/check_style.sh"
+        . "$GITHUB_ACTION_PATH/check-style/check_style.sh"
     else
         echo "${Yellow}Auto-formatting enabled${Reset}"
-        . "$GITHUB_ACTION_PATH/scripts/auto-format/auto_format.sh"
+        . "$GITHUB_ACTION_PATH/auto-format/auto_format.sh"
     fi
 
     printf "\n"
