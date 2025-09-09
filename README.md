@@ -3,9 +3,7 @@
 This action can be used to check or auto format C# scripts like in Unity project. Works with all type of project containing .cs files.
 I'm active on Github so pull requests and issues are welcome.
 
-This action is built on top of the work of others, so a big thank you to `tyirvine/Unity-Actions-Autoformat@1.0.6`, `andstor/file-existence-action@v1.0.1`, `andstor/file-existence-action@v1.0.1`, and @shiena for the inspiration!
-
-Here's the original gist → https://gist.github.com/shiena/197f949bc513858a85883d5529730310
+This action is built on top of the work of others, so a big thank you to [`tyirvine/Unity-Actions-Autoformat@1.0.6`](https://github.com/tyirvine/Unity-Actions-Autoformat), [`andstor/file-existence-action@v1.0.1`](https://github.com/andstor/file-existence-action) and @shiena's [gist](https://gist.github.com/shiena/197f949bc513858a85883d5529730310) for the inspiration!
 
 ## Usage
 
@@ -21,7 +19,7 @@ Here's the original gist → https://gist.github.com/shiena/197f949bc513858a8588
       with:
         path: ./Assets/Scripts/ # Path to your scripts directory
         check_only: 'false' # Set to 'true' to only verify formatting without making changes (true|false, default: 'false')
-        diff_check: 'false' # Set to 'true' to check only changed files, 'false' to check all files (true|false, default: 'false')
+        diff_check: 'false' # Set to 'true' to check only changed lines, 'false' to check all files (true|false, default: 'false')
         check_severity: 'warn' # Set to 'warn' or 'error' to specify the severity of style checks (warn|error, default: 'error')
         squash_commit: 'true' # Set to 'true' to edit the previous commit instead of creating a new one (true|false, default: 'false')
 ```

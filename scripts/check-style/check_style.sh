@@ -5,7 +5,7 @@ OUTPUT_FILE=$(mktemp)
 DIFF_FOLDER=$(mktemp -d)
 
 # Create new console project
-dotnet new console --no-restore
+dotnet new console --no-restore --force
 
 # Modify csproj to include all .cs files recursively
 csproj=$(find "./" -maxdepth 1 -name "*.csproj" | head -n 1)
