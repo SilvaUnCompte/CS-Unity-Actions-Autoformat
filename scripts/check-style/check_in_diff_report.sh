@@ -1,9 +1,5 @@
 #!/bin/bash
 
-Blue='\033[0;34m'
-Reset='\033[0m'
-
-echo "${Blue}Filtering results based on diff report: $1${Reset}"
 
 # Read from stdin line by line
 while IFS= read -r line; do

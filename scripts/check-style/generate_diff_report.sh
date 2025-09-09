@@ -7,11 +7,11 @@ Blue='\033[0;34m'
 Reset='\033[0m'
 
 # Script must receive a commit SHA as argument
-printf "${Blue}Commit sha: $INPUT_DIFF_COMMIT_SHA${Reset}"
+printf "${Blue}Commit sha: $INPUT_DIFF_COMMIT_SHA${Reset}\n"
 
 # Step 1: Generate the raw git diff
 # Ignoring whitespace changes and showing only C# files
-printf "${Blue}Generating diff...${Reset}"
+printf "${Blue}Generating diff...${Reset}\n"
 git diff "$INPUT_DIFF_COMMIT_SHA" --ignore-space-at-eol --ignore-all-space --ignore-blank-lines --unified=0 -- "*.cs" > "$INPUT_DIFF_FOLDER/diff.patch"
 
 
