@@ -39,6 +39,9 @@ jobs:
     # if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
 
     runs-on: ubuntu-latest # The type of runner that the job will run on
+    permissions:
+      contents: write  # Allows reading and writing to the repo
+      pull-requests: write  # Allows modifying PRs if necessary
 
     steps:
       - uses: actions/checkout@v4 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
