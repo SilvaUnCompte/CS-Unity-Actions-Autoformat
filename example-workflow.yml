@@ -20,7 +20,7 @@ on:
         required: false
         default: 'false'
       diff_check:
-        description: 'Whether to check only changed files or all files'
+        description: 'Whether to check only changed lines or all files'
         required: false
         default: 'false'
       check_severity:
@@ -50,7 +50,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Unity Auto Format
-        uses: SilvaUnCompte/CS-Unity-Actions-Autoformat@v1.0.0 # check available version before using
+        uses: SilvaUnCompte/CS-Unity-Actions-Autoformat@v1.1.0 # check available version before using
         with:
           path: ./Assets/Scripts/ # Path to your scripts directory
           check_only: 'false' # Set to 'true' to only verify formatting without making changes (true|false, default: 'false')
