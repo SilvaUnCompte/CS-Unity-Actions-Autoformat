@@ -17,7 +17,7 @@ git diff "$INPUT_DIFF_COMMIT_SHA" --ignore-space-at-eol --ignore-all-space --ign
 
 # Step 2: Parse diff to generate a CSV-like output
 # Format: filename,line_number for each added line
-printf "${Blue}Generating line numbers report...${Reset}"
+printf "${Blue}Generating line numbers report...${Reset}\n"
 awk '
 # Initialize variables for tracking current file and line positions
 BEGIN { 
@@ -35,12 +35,19 @@ BEGIN {
 }
 
 # Parse the @@ header to get line numbers
+# Format: @@ -old_start,old_count +new_start,new_count @@
 /^@@/ {
-    # Extract after the plus sign
+    # Extract the line number after the plus sign
+    # Example: @@ -12 +12 @@
     plus_pos = index($0, "+")
-    comma_pos = index(substr($0, plus_pos), ",")
-    if (plus_pos > 0 && comma_pos > 0) {
-        start_line = substr($0, plus_pos+1, comma_pos-1)
+    space_pos = index(substr($0, plus_pos), " ")
+    if (plus_pos > 0) {
+        if (space_pos > 0) {
+            start_line = substr($0, plus_pos+1, space_pos-1)
+        } else {
+            start_line = substr($0, plus_pos+1)
+        }
+        start_line += 0 # force to number
         line_count = 0
     }
     next
