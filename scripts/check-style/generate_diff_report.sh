@@ -7,17 +7,17 @@ Blue='\033[0;34m'
 Reset='\033[0m'
 
 # Script must receive a commit SHA as argument
-echo "${Blue}Commit sha: $INPUT_DIFF_COMMIT_SHA${Reset}"
+printf "${Blue}Commit sha: $INPUT_DIFF_COMMIT_SHA${Reset}"
 
 # Step 1: Generate the raw git diff
 # Ignoring whitespace changes and showing only C# files
-echo "${Blue}Generating diff...${Reset}"
+printf "${Blue}Generating diff...${Reset}"
 git diff "$INPUT_DIFF_COMMIT_SHA" --ignore-space-at-eol --ignore-all-space --ignore-blank-lines --unified=0 -- "*.cs" > "$INPUT_DIFF_FOLDER/diff.patch"
 
 
 # Step 2: Parse diff to generate a CSV-like output
 # Format: filename,line_number for each added line
-echo "${Blue}Generating line numbers report...${Reset}"
+printf "${Blue}Generating line numbers report...${Reset}"
 awk '
 # Initialize variables for tracking current file and line positions
 BEGIN { 
@@ -57,4 +57,4 @@ $0 ~ /^\+/ {
 }
 ' "$INPUT_DIFF_FOLDER/diff.patch" > "$INPUT_DIFF_FOLDER/lines.patch"
 
-echo "${Blue}Report generated at $INPUT_DIFF_FOLDER/lines.patch${Reset}"
+printf "${Blue}Report generated at $INPUT_DIFF_FOLDER/lines.patch${Reset}\n"

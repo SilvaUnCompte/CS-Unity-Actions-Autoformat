@@ -45,6 +45,7 @@ if [ "$diff_check" = "true" ]; then
 
     # Generate the diff report
     bash "/check-style/generate_diff_report.sh" "$DIFF_FOLDER" "$diff_commit_sha"
+    cat "$DIFF_FOLDER/lines.patch"
     
     # Filter the output based on the diff report
     filtered_output=$(echo "$filtered_output" | bash "/check-style/check_in_diff_report.sh" "$DIFF_FOLDER/lines.patch")
