@@ -18,7 +18,7 @@ if [ -n "$(git status --porcelain)" ]; then
     if [ "$squash_commit" = "true" ]; then
         # Squash commit
         echo "${Yellow}Squash committing changes${Reset}"
-        . "$GITHUB_ACTION_PATH/auto-format/amend_commit.sh"
+        . "/auto-format/amend_commit.sh"
     else
         # Regular commit
         echo "${Yellow}Committing changes${Reset}"

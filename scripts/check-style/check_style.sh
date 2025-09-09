@@ -2,6 +2,7 @@
 
 PROJECT_NAME="tempCheckStyle"
 OUTPUT_FILE=$(mktemp)
+DIFF_FOLDER=$(mktemp -d)
 
 # Create new console project
 dotnet new console --no-restore
@@ -33,6 +34,20 @@ echo "${Yellow}==================== BEGIN CHECK STYLE ====================${Rese
 # Filter the output for warnings and errors
 filtered_output=$(grep -E "warning|error" "$OUTPUT_FILE" | grep -vE "CS[0-9]{4}" || true)
 filtered_build_output=$(grep -E "warning CS[0-9]{4}" "$OUTPUT_FILE" || true)
+
+# Apply diff check if enabled
+if [ "$diff_check" = "true" ]; then
+    echo "${Yellow}Diff check enabled, filtering results based on changes since $diff_commit_sha${Reset}"
+
+    # Generate the diff report
+    . "/auto-format/generate_diff_report.sh" "$diff_commit_sha" "$DIFF_FOLDER"
+    
+    # Filter the output based on the diff report
+    filtered_output=$(echo "$filtered_output" | . "/auto-format/check_in_diff_report.sh" "$DIFF_FOLDER/lines.patch")
+    filtered_build_output=$(echo "$filtered_build_output" | . "/auto-format/check_in_diff_report.sh" "$DIFF_FOLDER/lines.patch")
+fi
+
+# Display the filtered output
 echo "$filtered_output"
 echo "$filtered_build_output"
 

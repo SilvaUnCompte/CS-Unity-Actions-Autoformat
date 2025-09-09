@@ -8,15 +8,17 @@ if [ -v DEBUG ]; then
   set -x
 fi
 
-# Script must receive a commit SHA as argument
-echo "${Blue}Commit sha: $1${Reset}"
+COMMIT_SHA="$1"
+DIFF_FOLDER="$2"
 
-mkdir -p tmp/diff
+# Script must receive a commit SHA as argument
+echo "${Blue}Commit sha: $COMMIT_SHA${Reset}"
+
 
 # Step 1: Generate the raw git diff
 # Ignoring whitespace changes and showing only C# files
 echo "${Blue}Generating diff...${Reset}"
-git diff $1 --ignore-space-at-eol --ignore-all-space --ignore-blank-lines --unified=0 -- "*.cs" > tmp/diff/diff.patch
+git diff $COMMIT_SHA --ignore-space-at-eol --ignore-all-space --ignore-blank-lines --unified=0 -- "*.cs" > "$DIFF_FOLDER/diff.patch"
 
 
 # Step 2: Parse diff to generate a CSV-like output
@@ -54,6 +56,6 @@ $0 ~ /^\+/ {
     }
     line_count++
 }
-' tmp/diff/diff.patch > tmp/diff/lines.patch
+' "$DIFF_FOLDER/diff.patch" > "$DIFF_FOLDER/lines.patch"
 
-echo "${Blue}Report generated at tmp/diff/lines.patch${Reset}"
+echo "${Blue}Report generated at $DIFF_FOLDER/lines.patch${Reset}"
