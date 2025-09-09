@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "${Blue}Filtering results based on diff report: $1${Reset}"
+
 # Read from stdin line by line
 while IFS= read -r line; do
     # Extract the file path and line number from the error message
