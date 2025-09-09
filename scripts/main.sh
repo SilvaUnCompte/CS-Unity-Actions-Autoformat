@@ -1,4 +1,4 @@
-#!/bin/sh -l
+#!/bin/bash
 
 # ========= Setup colours =========
 Reset='\033[0m'         # Text Reset
@@ -47,12 +47,12 @@ if [ "$check_severity" != "warn" ] && [ "$check_severity" != "error" ]; then
 fi
 
 echo "\n"
-echo "Path: $path"
-echo "Check only: $check_only"
-echo "Diff check: $diff_check"
-echo "Check severity: $check_severity"
-echo "Squash commit: $squash_commit"
-echo "Base commit: $diff_commit_sha"
+echo "${Blue}Path: $path${Reset}"
+echo "${Blue}Check only: $check_only${Reset}"
+echo "${Blue}Diff check: $diff_check${Reset}"
+echo "${Blue}Check severity: $check_severity${Reset}"
+echo "${Blue}Squash commit: $squash_commit${Reset}"
+echo "${Blue}Base commit: $diff_commit_sha${Reset}"
 
 # ========= Get GitHub branch information =========
 BRANCH=$(echo "$GITHUB_REF" | sed 's|refs/heads/||')

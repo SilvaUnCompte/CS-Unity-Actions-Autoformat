@@ -44,11 +44,11 @@ if [ "$diff_check" = "true" ]; then
     echo "${Yellow}Diff check enabled, filtering results based on changes since $diff_commit_sha${Reset}"
 
     # Generate the diff report
-    . "/check-style/generate_diff_report.sh"
+    bash "/check-style/generate_diff_report.sh" "$DIFF_FOLDER" "$diff_commit_sha"
     
     # Filter the output based on the diff report
-    filtered_output=$(echo "$filtered_output" | . "/check-style/check_in_diff_report.sh")
-    filtered_build_output=$(echo "$filtered_build_output" | . "/check-style/check_in_diff_report.sh")
+    filtered_output=$(echo "$filtered_output" | bash "/check-style/check_in_diff_report.sh" "$DIFF_FOLDER/lines.patch")
+    filtered_build_output=$(echo "$filtered_build_output" | bash "/check-style/check_in_diff_report.sh" "$DIFF_FOLDER/lines.patch")
 fi
 
 # Display the filtered output

@@ -1,19 +1,24 @@
 #!/bin/bash
 
-# Script must receive a commit SHA as argument
-echo "${Blue}Commit sha: $diff_commit_sha${Reset}"
+INPUT_DIFF_FOLDER="$1"
+INPUT_DIFF_COMMIT_SHA="$2"
 
+Blue='\033[0;34m'
+Reset='\033[0m'
+
+# Script must receive a commit SHA as argument
+echo "${Blue}Commit sha: $INPUT_DIFF_COMMIT_SHA${Reset}"
 
 # Step 1: Generate the raw git diff
 # Ignoring whitespace changes and showing only C# files
 echo "${Blue}Generating diff...${Reset}"
-git diff $diff_commit_sha --ignore-space-at-eol --ignore-all-space --ignore-blank-lines --unified=0 -- "*.cs" > "$DIFF_FOLDER/diff.patch"
+git diff "$INPUT_DIFF_COMMIT_SHA" --ignore-space-at-eol --ignore-all-space --ignore-blank-lines --unified=0 -- "*.cs" > "$INPUT_DIFF_FOLDER/diff.patch"
 
 
 # Step 2: Parse diff to generate a CSV-like output
 # Format: filename,line_number for each added line
 echo "${Blue}Generating line numbers report...${Reset}"
-gawk '
+awk '
 # Initialize variables for tracking current file and line positions
 BEGIN { 
     current_file = ""
@@ -23,16 +28,20 @@ BEGIN {
 
 # Extract the changed file name from diff header
 /^diff --git/ {
-    match($0, /b\/(.+)$/, arr)
-    current_file = arr[1]
+    # Split on space, get last token
+    n = split($0, parts, " ")
+    file_path = parts[n]          # This is usually the "b/<filename>"
+    sub(/^b\//, "", file_path)    # Remove leading "b/"
+    current_file = file_path
 }
 
 # Parse the @@ header to get line numbers
-# Format: @@ -old_start,old_count +new_start,new_count @@
 /^@@/ {
-    match($0, /@@ -([0-9]+),([0-9]+) \+([0-9]+),([0-9]+)/, arr)
-    start_line = arr[3]  # Use the new file line number (after +)
-    line_count = 0
+    # Example line: @@ -123,4 +456,7 @@
+    if (match($0, /\+([0-9]+)/, m)) {
+        start_line = m[1]
+        line_count = 0
+    }
     next
 }
 
@@ -45,6 +54,6 @@ $0 ~ /^\+/ {
     }
     line_count++
 }
-' "$DIFF_FOLDER/diff.patch" > "$DIFF_FOLDER/lines.patch"
+' "$INPUT_DIFF_FOLDER/diff.patch" > "$INPUT_DIFF_FOLDER/lines.patch"
 
-echo "${Blue}Report generated at $DIFF_FOLDER/lines.patch${Reset}"
+echo "${Blue}Report generated at $INPUT_DIFF_FOLDER/lines.patch${Reset}"

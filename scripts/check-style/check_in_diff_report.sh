@@ -1,5 +1,9 @@
 #!/bin/bash
 
+Blue='\033[0;34m'
+Reset='\033[0m'
+
+echo "${Blue}Filtering results based on diff report: $1${Reset}"
 
 # Read from stdin line by line
 while IFS= read -r line; do
@@ -10,7 +14,7 @@ while IFS= read -r line; do
         line_number="${BASH_REMATCH[2]}"
 
         # Check if this file and line is in the diff (lines.patch)
-        if grep -q "^$file_path,$line_number\$" "$DIFF_FOLDER/lines.patch"; then
+        if grep -q "^$file_path,$line_number\$" "$1"; then
 
             # If yes, keep this line
             echo "$line"
