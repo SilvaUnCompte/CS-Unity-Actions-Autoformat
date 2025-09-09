@@ -10,6 +10,7 @@ Blue='\033[0;34m'       # Blue
 # ========= Setup variables =========
 path="$INPUT_PATH"
 check_only="$INPUT_CHECK_ONLY"
+diff_check="$INPUT_DIFF_CHECK"
 check_severity="$INPUT_CHECK_SEVERITY"
 squash_commit="$INPUT_SQUASH_COMMIT"
 
@@ -48,6 +49,7 @@ fi
 echo "\n"
 echo "Path: $path"
 echo "Check only: $check_only"
+echo "Diff check: $diff_check"
 echo "Check severity: $check_severity"
 echo "Squash commit: $squash_commit"
 echo "Base commit: $diff_commit_sha"

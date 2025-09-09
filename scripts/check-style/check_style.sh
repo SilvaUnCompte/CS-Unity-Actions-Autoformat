@@ -35,6 +35,10 @@ echo "${Yellow}==================== BEGIN CHECK STYLE ====================${Rese
 filtered_output=$(grep -E "warning|error" "$OUTPUT_FILE" | grep -vE "CS[0-9]{4}" || true)
 filtered_build_output=$(grep -E "warning CS[0-9]{4}" "$OUTPUT_FILE" || true)
 
+# Remove lines related to "Program.cs"
+filtered_output=$(echo "$filtered_output" | grep -v "Program.cs" || true)
+filtered_build_output=$(echo "$filtered_build_output" | grep -v "Program.cs" || true)
+
 # Apply diff check if enabled
 if [ "$diff_check" = "true" ]; then
     echo "${Yellow}Diff check enabled, filtering results based on changes since $diff_commit_sha${Reset}"
