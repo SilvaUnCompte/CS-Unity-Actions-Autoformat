@@ -47,8 +47,8 @@ if [ "$diff_check" = "true" ]; then
     . "/check-style/generate_diff_report.sh"
     
     # Filter the output based on the diff report
-    filtered_output=$(echo "$filtered_output" | . "/check-style/check_in_diff_report.sh" "$DIFF_FOLDER/lines.patch")
-    filtered_build_output=$(echo "$filtered_build_output" | . "/check-style/check_in_diff_report.sh" "$DIFF_FOLDER/lines.patch")
+    filtered_output=$(echo "$filtered_output" | . "/check-style/check_in_diff_report.sh")
+    filtered_build_output=$(echo "$filtered_build_output" | . "/check-style/check_in_diff_report.sh")
 fi
 
 # Display the filtered output

@@ -13,7 +13,7 @@ git diff $diff_commit_sha --ignore-space-at-eol --ignore-all-space --ignore-blan
 # Step 2: Parse diff to generate a CSV-like output
 # Format: filename,line_number for each added line
 echo "${Blue}Generating line numbers report...${Reset}"
-awk '
+gawk '
 # Initialize variables for tracking current file and line positions
 BEGIN { 
     current_file = ""
