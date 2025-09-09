@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh -l
 
 # ========= Setup colours =========
 Reset='\033[0m'         # Text Reset

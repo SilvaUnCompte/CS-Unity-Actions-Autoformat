@@ -28,7 +28,6 @@ BEGIN {
 
 # Extract the changed file name from diff header
 /^diff --git/ {
-    # Split on space, get last token
     n = split($0, parts, " ")
     file_path = parts[n]          # This is usually the "b/<filename>"
     sub(/^b\//, "", file_path)    # Remove leading "b/"
@@ -37,9 +36,11 @@ BEGIN {
 
 # Parse the @@ header to get line numbers
 /^@@/ {
-    # Example line: @@ -123,4 +456,7 @@
-    if (match($0, /\+([0-9]+)/, m)) {
-        start_line = m[1]
+    # Extract after the plus sign
+    plus_pos = index($0, "+")
+    comma_pos = index(substr($0, plus_pos), ",")
+    if (plus_pos > 0 && comma_pos > 0) {
+        start_line = substr($0, plus_pos+1, comma_pos-1)
         line_count = 0
     }
     next
